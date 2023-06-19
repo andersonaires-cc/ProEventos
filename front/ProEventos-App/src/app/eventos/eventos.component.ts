@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./eventos.component.scss']
 })
 export class EventosComponent {
-  public eventos: any;
+  public eventos: any = [];
 
   constructor(private http:HttpClient){}
 
