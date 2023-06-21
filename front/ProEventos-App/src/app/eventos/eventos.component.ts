@@ -10,7 +10,10 @@ export class EventosComponent {
   public eventos: any = [];
   larguraImagem: number = 150;
   margemImagem: number = 2;
-  exibirImagem: boolean = true; 
+  exibirImagem: boolean = true;
+  filtroLista: string = '';
+
+  
   constructor(private http:HttpClient){}
 
   ngOnInit(): void{
