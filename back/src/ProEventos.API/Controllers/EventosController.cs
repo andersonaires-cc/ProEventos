@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using ProEventos.Persistence;
 using ProEventos.Domain;
 using ProEventos.Persistence.Contextos;
+using ProEventos.Application.Contratos;
+using Microsoft.AspNetCore.Http;
 
 namespace ProEventos.API.Controllers
 {
@@ -15,22 +17,62 @@ namespace ProEventos.API.Controllers
     public class EventosController : ControllerBase
     {
        
+        public readonly IEventoService _eventoService;
         
-        private readonly ProEventosContext _context;
-        public EventosController(ProEventosContext context)
+        public EventosController(IEventoService eventoService)
         {
-            _context = context;
+            _eventoService = eventoService;
         }
 
         [HttpGet]
-        public IEnumerable<Evento> Get()
+        public async Task<IActionResult> Get()
         {
-            return _context.Eventos;
+            try
+            {
+                var eventos = await _eventoService.GetAllEventosAsync(true);
+                if(eventos == null)return NotFound("Nenhum evento encontrado.");
+                return Ok(eventos);
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar recuperar eventos. Erro: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
-        public Evento Get(int id){
-            return _context.Eventos.FirstOrDefault(Evento => Evento.Id ==id);
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var evento = await _eventoService.GetEventoByIdAsync(id, true);
+                if(evento == null)return NotFound("Evento por Id não encontrado.");
+                return Ok(evento);
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar recuperar eventos. Erro: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{tema}/tema")]
+        public async Task<IActionResult> GetByTema(string tema)
+        {
+            try
+            {
+                var evento = await _eventoService.GetAllEventosByTemaAsync(tema, true);
+                if(evento == null)return NotFound("Eventos por tema não encontrados.");
+                return Ok(evento);
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar recuperar eventos. Erro: {ex.Message}");
+            }
         }
 
         [HttpPost]
