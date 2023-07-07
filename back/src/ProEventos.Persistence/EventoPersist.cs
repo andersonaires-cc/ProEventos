@@ -47,6 +47,7 @@ namespace ProEventos.Persistence
             }
 
             query = query
+                        .AsNoTracking()
                         .OrderBy(e => e.Id)
                         .Where(e => e.Tema.ToLower().Contains(tema.ToLower()));
 
