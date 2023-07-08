@@ -1,13 +1,17 @@
+import { RedeSocial } from "./RedeSocial";
+import { Lote } from "./lote";
+import { Palestrante } from "./palestrante";
+
 export interface Evento{
-    Id: number;
-    Local: string;
-    DataEvento?: Date;
-    Tema: string;
-    QtdPessoas: number;
-    ImagemURL: string;
-    Telefone: string;
-    Email: string;
-    Lotes: Lote[];
-    RedesSociais: RedeSocial[];
-    PalestrantesEventos: Palestrante[];
+    id: number;
+    local: string;
+    dataEvento?: Date;
+    tema: string;
+    qtdPessoas: number;
+    imagemURL: string;
+    telefone: string;
+    email: string;
+    lotes: Lote[];
+    redesSociais: RedeSocial[];
+    palestrantesEventos: Palestrante[];
 }
