@@ -1,6 +1,6 @@
 import { RedeSocial } from "./RedeSocial";
-import { Lote } from "./lote";
-import { Palestrante } from "./palestrante";
+import { Lote } from "./Lote";
+import * as palestrante from "./palestrante";
 
 export interface Evento{
     id: number;
@@ -13,5 +13,5 @@ export interface Evento{
     email: string;
     lotes: Lote[];
     redesSociais: RedeSocial[];
-    palestrantesEventos: Palestrante[];
+    palestrantesEventos: palestrante.Palestrante[];
 }
