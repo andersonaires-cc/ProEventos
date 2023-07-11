@@ -36,7 +36,8 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     TituloComponent,
     ContatosComponent,
     DashboardComponent,
-    PerfilComponent
+    PerfilComponent,
+    TituloComponent
   ],
   imports: [
     BrowserModule,
