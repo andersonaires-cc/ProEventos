@@ -20,6 +20,7 @@ import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { NavComponent } from './nav/nav.component';
 import { EventoService } from './services/evento.service';
 import { DateTimeFormatPipe } from './helpers/date-time-format.pipe';
+import { TituloComponent } from './shared/titulo/titulo.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DateTimeFormatPipe } from './helpers/date-time-format.pipe';
     EventosComponent,
     PalestrantesComponent,
     NavComponent,
-    DateTimeFormatPipe
+    DateTimeFormatPipe,
+    TituloComponent
   ],
   imports: [
     BrowserModule,
