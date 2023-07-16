@@ -26,6 +26,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
 import { EventoListaComponent } from './components/eventos/evento-lista/evento-lista.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { RegistrationComponent } from './components/user/registration/registration.component';
 
 
 @NgModule({
@@ -40,7 +43,10 @@ import { EventoListaComponent } from './components/eventos/evento-lista/evento-l
     DashboardComponent,
     PerfilComponent,
     EventoDetalheComponent,
-    EventoListaComponent
+    EventoListaComponent,
+    UserComponent,
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
