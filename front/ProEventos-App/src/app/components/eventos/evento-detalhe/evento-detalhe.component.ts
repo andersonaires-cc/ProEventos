@@ -39,4 +39,8 @@ export class EventoDetalheComponent implements OnInit{
         });
     }
 
+    resetForm(): void{
+        this.form.reset();
+    }
+
 }
