@@ -12,6 +12,8 @@ export class RegistrationComponent implements OnInit{
 
     constructor(public fb: FormBuilder){}
 
+    get f(): any {return this.form.controls;}
+
     ngOnInit(): void {
         this.validation();
     }
