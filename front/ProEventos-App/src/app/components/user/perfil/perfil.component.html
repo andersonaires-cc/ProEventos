@@ -1,7 +1,7 @@
 <app-titulo [titulo]="'Perfil'"></app-titulo>
 
 <div class="card rounded shadow-sm">
-    <form>
+    <form [formGroup]="form">
         <div class="row p-3">
             <div class="col-lg-3 pt-1">
                 <div class="card mb-3">
@@ -45,7 +45,12 @@
                     </div>
                     <div class="form-group col">
                         <label>Título</label>
-                        <select class="form-control">
+                        <select class="form-control" 
+                            formControlName="titulo"
+                            [ngClass]="{'is-invalid': f.titulo.errors && f.titulo.touched}">
+                        <div class="invalid-feedback">
+                            Obrigatório
+                        </div>
                             <option value=""></option>
                             <option value="0">Não Quero</option>
                             <option value="Senhorita">Tecnólogo(a)</option>
@@ -59,26 +64,37 @@
                     </div>
                     <div class="form-group col-sm-5">
                         <label>Primeiro Nome</label>
-                        <input type="text" class="form-control"/>
-                        
+                        <input type="text" class="form-control"
+                            formControlName="primeiroNome"
+                            [ngClass]="{'is-invalid': f.primeiroNome.errors && f.primeiroNome.touched}"/>
+                        <div class="invalid-feedback">
+                            Primeiro Nome é obrigatório
+                        </div>
                     </div>
                     <div class="form-group col-sm-5">
                         <label>Último nome</label>
-                        <input type="text" class="form-control"/>
-                        
+                        <input type="text" class="form-control"
+                            formControlName="ultimoNome"
+                        [ngClass]="{'is-invalid': f.ultimoNome.errors && f.ultimoNome.touched}"/>
+                        <div class="invalid-feedback">
+                            último Nome é obrigatório
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm-5">
                         <label>E-mail</label>
+                        formControlNmailame="email"
                         <input type="text" class="form-control" />
                     </div>
                     <div class="form-group col-sm-4">
                         <label>Telefone</label>
+                        formControlName="telefone"
                         <input type="text" class="form-control" />
                     </div>
                     <div class="form-group col-sm">
                         <label>Função</label>
+                        formControlName="funcao"
                         <select class="form-control">
                             <option value=""></option>
                             <option value="Participante">Participante</option>
@@ -87,6 +103,7 @@
                     </div>
                     <form-group class="col-12">
                         <label>Descrição</label>
+                        formControlName="lab"
                         <input type="text" class="form-control" />
                     </form-group>
                 </div>
