@@ -4,7 +4,7 @@ using AutoMapper;
 using System.Linq;
 using System.Threading.Tasks;
 using ProEventos.Domain;
-using ProEventos.API.Dtos;
+using ProEventos.Application.Dtos;
 
 namespace ProEventos.API.Helpers
 {
