@@ -104,7 +104,7 @@ export class EventoDetalheComponent implements OnInit{
 
             if(this.estadoSalvar == 'post'){
                 this.evento = {...this.form.value};
-                this.eventoService.postEvento(this.evento).subscribe(
+                this.eventoService[this.estadoSalvar](this.evento).subscribe(
                     () =>this.toastr.success('Evento salvo com sucesso', 'Sucesso !'),
                     (error: any) =>{
                         console.error(error);
@@ -116,7 +116,7 @@ export class EventoDetalheComponent implements OnInit{
             }else{
                 this.evento = {id: this.evento.id, ...this.form.value};
 
-                this.eventoService.putEvento(this.evento.id, this.evento).subscribe(
+                this.eventoService['put'](this.evento).subscribe(
                     () =>this.toastr.success('Evento salvo com sucesso', 'Sucesso !'),
                     (error: any) =>{
                         console.error(error);
