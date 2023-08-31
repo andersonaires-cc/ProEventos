@@ -46,26 +46,37 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<LoteDto> UpdateEvento(int eventoId, LoteDto model)
+        public async Task<LoteDto[]> SaveLotes(int eventoId, LoteDto[] models)
         {
             try
             {
-                var evento = await _lotePersist.GetEventoByIdAsync(eventoId, false);
-                if(evento == null)return null;
+                var lotes = await _lotePersist.GetLotesByEventoIdAsync(eventoId);
+                if(lotes == null)return null;
 
-                model.Id = evento.Id;
-
-                _mapper.Map(model,evento);
-
-                _geralPersit.Update<Evento>(evento);
-
-                if(await _geralPersit.SaveChangesAsync())
+                foreach(var model in models)
                 {
-                    var eventoRetorno = await _lotePersist.GetEventoByIdAsync(evento.Id, false);
+                    if(model.Id == 0)
+                    {
+                        
+                    }
+                    else
+                    {
+                        var lote = lotes.FirstOrDefault(lote => lote.Id == model.Id);
 
-                    return _mapper.Map<LoteDto>(eventoRetorno);
+                        model.EventoId = eventoId;
+
+                        _mapper.Map(model,lote);
+
+                        _geralPersit.Update<Lote>(lote);
+
+                        await _geralPersit.SaveChangesAsync();
+                    }
                 }
-                return null;
+
+                var loteRetorno = await _lotePersist..GetLotesByEventoIdAsync(eventoId);
+
+                return _mapper.Map<LoteDto[]>(loteRetorno);
+
             }
             catch (Exception ex)
             {
