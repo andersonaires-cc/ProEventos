@@ -24,20 +24,16 @@ namespace ProEventos.Application
             _mapper = mapper;
             
         }
-        public async Task<LoteDto> AddEventos(LoteDto model)
+        public async Task<LoteDto> AddLote(int eventoId, LoteDto model)
         {
             try
             {
-                var evento = _mapper.Map<Evento>(model);
+                var lote = _mapper.Map<Lote>(model);
+                lote.EventoId = eventoId;
 
-                _geralPersit.Add<Evento>(evento);
-                if(await _geralPersit.SaveChangesAsync())
-                {
-                    var eventoRetorno = await _lotePersist.GetEventoByIdAsync(evento.Id, false);
+                _geralPersit.Add<Lote>(lote);
 
-                    return _mapper.Map<LoteDto>(eventoRetorno);
-                }
-                return null;
+                await _geralPersit.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -57,7 +53,7 @@ namespace ProEventos.Application
                 {
                     if(model.Id == 0)
                     {
-                        
+                        await AddLote(eventoId, model);
                     }
                     else
                     {
