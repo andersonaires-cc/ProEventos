@@ -15,7 +15,7 @@ namespace ProEventos.Application
         private readonly IGeralPersist _geralPersit;
         private readonly ILotePersist _lotePersist;
         private readonly IMapper _mapper;
-        public LoteService(ILotePersist geralPersit,
+        public LoteService(IGeralPersist geralPersit,
                             ILotePersist lotePersist,
                             IMapper mapper)
         {
@@ -24,7 +24,7 @@ namespace ProEventos.Application
             _mapper = mapper;
             
         }
-        public async Task<LoteDto> AddLote(int eventoId, LoteDto model)
+        public async Task AddLote(int eventoId, LoteDto model)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ProEventos.Application
                     }
                 }
 
-                var loteRetorno = await _lotePersist..GetLotesByEventoIdAsync(eventoId);
+                var loteRetorno = await _lotePersist.GetLotesByEventoIdAsync(eventoId);
 
                 return _mapper.Map<LoteDto[]>(loteRetorno);
 
@@ -84,11 +84,11 @@ namespace ProEventos.Application
         {
             try
             {
-                var lote = await _lotePersist.GetLoteByIdsAsync(eventoId, loteId)
+                var lote = await _lotePersist.GetLoteByIdsAsync(eventoId, loteId);
                 if(lote == null) throw new Exception("Lote para delete não encontrado.");
 
                 _geralPersit.Delete<Lote>(lote);
-                return(await _geralPersit.SaveChangesAsync());
+                return await _geralPersit.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace ProEventos.Application
         {
             try
             {
-                var lotes = await _lotePersist.GetLotesByEventoIdAsync(eventoIds);
+                var lotes = await _lotePersist.GetLotesByEventoIdAsync(eventoId);
                 if(lotes ==null)return null;
 
                 var resultado = _mapper.Map<LoteDto[]>(lotes);     
@@ -114,7 +114,7 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<LoteDto> GetloteByIdsAsync(int eventoId, int loteId)
+        public async Task<LoteDto> GetLoteByIdsAsync(int eventoId, int loteId)
         {
             try
             {
