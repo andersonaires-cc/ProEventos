@@ -28,7 +28,12 @@ namespace ProEventos.Persistence
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Lote> GetLotesByEventoIdAsync(int eventoId)
+        public Task<Lote> GetLoteByIdsAsync(int eventoId, int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Lote[]> GetLotesByEventoIdAsync(int eventoId)
         {
             IQueryable<Lote> query = _context.Lotes;
 

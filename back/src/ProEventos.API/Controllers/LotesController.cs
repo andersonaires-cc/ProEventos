@@ -44,7 +44,7 @@ namespace ProEventos.API.Controllers
             try
             {
                 var lotes = await _loteService.SaveLotes(eventoId, models);
-                if(lotes == null)return BadRequest("Erro ao tentar adicionar evento.");
+                if(lotes == null)return BadRequest("Erro ao tentar adicionar lote.");
                 return Ok(lotes);
             }
             catch (Exception ex)
@@ -60,6 +60,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
+                
                 var lote  = await _loteService.GetLoteByIdsAsync(eventoId, loteId);
                 if(lote == null) return NoContent();
 
@@ -71,7 +72,7 @@ namespace ProEventos.API.Controllers
             {
                 
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Erro ao tentar deletar lotes. Erro: {ex.Message}");
+                        $"Erro ao tentar deletar lote. Erro: {ex.Message}");
             }
         }
     }
