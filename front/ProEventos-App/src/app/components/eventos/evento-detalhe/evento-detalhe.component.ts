@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Evento } from '@app/models/Evento';
+import { Lote } from '@app/models/Lote';
 import { EventoService } from '@app/services/evento.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,6 +20,10 @@ export class EventoDetalheComponent implements OnInit{
     form: FormGroup;
 
     estadoSalvar = 'post';
+
+    get lotes(): FormArray{
+        return this.form.get('lotes') as FormArray
+    }
 
     get f(): any{
         return this.form.controls;
@@ -88,7 +93,23 @@ export class EventoDetalheComponent implements OnInit{
             email: ['', 
                 [Validators.required, Validators.email]
             ],
+            lote : this.fb.array([])
         });
+    }
+
+    adicionarLote(): void {
+        (this.lotes).push(this.criarLote({id: 0} as Lote));
+    }
+
+    criarLote(lote: Lote): FormGroup {
+        return this.fb.group({
+            id:[lote.id],
+            nome:[lote.nome , Validators.required],
+            quantidade:[lote.quantidade, Validators.required],
+            preco:[lote.preco, Validators.required],
+            dataInicio:[lote.dataInicio],
+            dataFinal:[lote.dataFinal]
+        })
     }
 
     resetForm(): void{
