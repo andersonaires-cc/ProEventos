@@ -93,7 +93,7 @@ export class EventoDetalheComponent implements OnInit{
             email: ['', 
                 [Validators.required, Validators.email]
             ],
-            lote : this.fb.array([])
+            lotes : this.fb.array([])
         });
     }
 
