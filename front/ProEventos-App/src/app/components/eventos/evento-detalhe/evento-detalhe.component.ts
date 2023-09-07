@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
@@ -116,8 +116,8 @@ export class EventoDetalheComponent implements OnInit{
         this.form.reset();
     }
 
-    public cssValidator(campoForm: FormControl): any{
-        return {'is-invalid': campoForm.errors && campoForm.touched};
+    public cssValidator(campoForm: FormControl | AbstractControl | null): any {
+        return {'is-invalid': campoForm?.errors && campoForm.touched};
     }
     public salvarAlteracao(): void{
         this.spinner.show();
