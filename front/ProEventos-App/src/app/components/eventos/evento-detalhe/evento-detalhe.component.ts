@@ -58,6 +58,7 @@ export class EventoDetalheComponent implements OnInit{
     }
 
     public carregarEvento(): void{
+        //imcompleto
         this.eventoId = +this.activatedRouter.snapshot.paramMap.get('id');
 
         if(this.eventoId != null || this.eventoId === 0){
