@@ -58,7 +58,7 @@ export class EventoDetalheComponent implements OnInit{
     }
 
     public carregarEvento(): void{
-        //imcompleto
+        
         this.eventoId = +this.activatedRouter.snapshot.paramMap.get('id')!;
 
         if(this.eventoId != null || this.eventoId === 0){
@@ -70,15 +70,29 @@ export class EventoDetalheComponent implements OnInit{
                 (evento: Evento) => {
                     this.evento = {...evento};
                     this.form.patchValue(this.evento);
+                    this.carregarLotes();
                 },
                 (error: any) => {
                     this.spinner.hide();
                     this.toastr.error('Erro ao tentar carregar Evento.', 'Erro!');
                     console.error(error);
-                },
-                () => this.spinner.hide(),
-            )
-        };
+                }                
+            ).add(() => this.spinner.hide());
+        }
+    }
+
+    public carregarLotes(): void {
+        this.loteService.getLotesByEventosId(this.eventoId).subscribe(
+            (lotesRetorno: Lote[]) => {
+                lotesRetorno.forEach(lote =>{
+                    this.lotes.push(this.criarLote(lote));
+                });
+            },
+            (error: any) => {
+                this.toastr.error('Erro ao tentar carregar lotes','Erro');
+                console.log(error);
+            }
+        ).add(() => this.spinner.hide());
     }
 
     ngOnInit(): void {
