@@ -65,7 +65,7 @@ export class EventoDetalheComponent implements OnInit{
         
         this.eventoId = +this.activatedRouter.snapshot.paramMap.get('id')!;
 
-        if(this.eventoId != null || this.eventoId === 0){
+        if(this.eventoId != null && this.eventoId != 0){
             this.spinner.show();
 
             this.estadoSalvar = 'put';
@@ -174,8 +174,8 @@ export class EventoDetalheComponent implements OnInit{
     }
 
     public salvarLotes(): void{
-        this.spinner.show();
         if(this.lotes.valid){
+            this.spinner.show();
             this.loteService.saveLote(this.eventoId, this.form.value.lotes).subscribe(
                 () => {
                     this.toastr.success('Lotes salvos com Sucesso!', 'Sucesso');
