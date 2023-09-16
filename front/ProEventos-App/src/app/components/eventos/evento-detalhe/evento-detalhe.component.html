@@ -150,13 +150,17 @@
               </div>
               <div class="form-group col-md-4">
                 <label>Data Início</label>
-                <input type="text" class="form-control" 
+                <input type="text" class="form-control"
+                bsDatepicker
+                [bsConfig]="bsConfigLote" 
                 [ngClass]="cssValidator(lotes.get(i+'.dataInicio'))"    
                 formControlName="dataInicio" placeholder="01/01/2019">
               </div>
               <div class="form-group col-md-4">
                 <label>Data Fim</label>
-                <input type="text" class="form-control"                 
+                <input type="text" class="form-control"
+                bsDatepicker
+                [bsConfig]="bsConfigLote"                 
                 formControlName="dataFim" placeholder="01/01/2019">
               </div>
             </div>
