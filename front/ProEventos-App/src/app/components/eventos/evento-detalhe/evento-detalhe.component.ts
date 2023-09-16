@@ -48,16 +48,6 @@ export class EventoDetalheComponent implements OnInit{
         };
     }
 
-    get bsConfigLote(): any {
-        return{
-            isAnimated: true,
-            adaptivePosition: true,
-            dateInputFormat: 'DD/MM/YYYY',
-            containerClass: 'theme-default',
-            showWeekNumbers: false
-        };
-    }
-
     constructor(private fb: FormBuilder,
                 private localeService: BsLocaleService,
                 private activatedRouter: ActivatedRoute,
@@ -147,6 +137,10 @@ export class EventoDetalheComponent implements OnInit{
             dataInicio:[lote.dataInicio],
             dataFinal:[lote.dataFinal]
         })
+    }
+
+    public mudarValorData(value: Date, indice: number, campo: string): void {
+        this.lotes.value[indice][campo] = value;
     }
 
     resetForm(): void{
