@@ -232,5 +232,21 @@ export class EventoDetalheComponent implements OnInit{
         reader.onload = (event: any) => this.imagemURL = event.target.result;
 
         reader.readAsDataURL(this.file);
+
+        this.uploadImagem();
+    }
+
+    uploadImagem(): void {
+        this.spinner.show();
+        this.eventoService.postUpload(this.eventoId,this.file).subscribe(
+            () =>{
+                this.carregarEvento();
+                this.toastr.success('Imagem atualizada com sucesso', 'Sucesso!')
+            },
+            (error: any) =>{
+                this.toastr.success('Erro ao fazer upload de imagem', 'Erro!')
+                console.log(error);
+            }
+        ).add(()=> this.spinner.hide());
     }
 }
