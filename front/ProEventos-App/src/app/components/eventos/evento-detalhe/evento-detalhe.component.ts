@@ -25,6 +25,7 @@ export class EventoDetalheComponent implements OnInit{
     estadoSalvar = 'post';
 
     loteAtual = {id:0, nome: '', indice:0}
+    imagemURL = 'assets/cloud.png'
 
     get modoEditar(): boolean{
         return this.estadoSalvar === 'put';
