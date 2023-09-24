@@ -7,6 +7,7 @@ import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
 import { environment } from '@environments/environment';
 
+
 @Component({
   selector: 'app-evento-lista',
   templateUrl: './evento-lista.component.html',

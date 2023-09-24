@@ -52,7 +52,7 @@ ng {
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "production": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -62,7 +62,7 @@ ng {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -76,7 +76,7 @@ ng {
               "browserTarget": "ProEventos-App:build:production"
             },
             "development": {
-              "browserTarget": "ProEventos-App:build:development"
+              "browserTarget": "ProEventos-App:build"
             }
           },
           "defaultConfiguration": "development"
