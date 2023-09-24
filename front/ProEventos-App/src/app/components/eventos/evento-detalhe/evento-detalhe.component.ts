@@ -5,6 +5,7 @@ import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
 import { EventoService } from '@app/services/evento.service';
 import { LoteService } from '@app/services/lote.service';
+import { environment } from '@environments/environment';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -76,6 +77,9 @@ export class EventoDetalheComponent implements OnInit{
                 (evento: Evento) => {
                     this.evento = {...evento};
                     this.form.patchValue(this.evento);
+                    if(this.evento.imagemURL != ''){
+                        this.imagemURL = environment.apiURL + 'Resources/Images/' + this.evento.imagemURL;
+                    }
                     this.carregarLotes();
                 },
                 (error: any) => {
@@ -117,7 +121,7 @@ export class EventoDetalheComponent implements OnInit{
             qtdPessoas: ['', 
                 [Validators.required, Validators.max(120000)]
             ],
-            imagemURL: ['', Validators.required],
+            imagemURL: [''],
             telefone: ['', Validators.required],
             email: ['', 
                 [Validators.required, Validators.email]
