@@ -160,27 +160,58 @@ export class EventoDetalheComponent implements OnInit{
     public cssValidator(campoForm: FormControl | AbstractControl | null): any {
         return {'is-invalid': campoForm?.errors && campoForm.touched};
     }
-    public salvarEvento(): void{
+    // public salvarEvento(): void{
+    //     this.spinner.show();
+    //     if(this.form.valid){
+
+    //         this.evento = (this.estadoSalvar === 'post')
+    //                 ? {...this.form.value}
+    //                 : {id: this.evento.id, ...this.form.value};
+
+    //         this.eventoService[this.estadoSalvar](this.evento).subscribe(
+    //             (eventoRetorno: Evento) =>{
+    //                 this.toastr.success('Evento salvo com Sucesso', 'Sucesso');
+    //                 this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
+    //             },
+    //             (error: any) =>{
+    //                 console.error(error);
+    //                 this.spinner.hide();
+    //                 this.toastr.error('Erro ao salvar evento', 'Evento');
+    //             },
+    //             () => this.spinner.hide()
+    //         );
+    //     }   
+    // }
+    public salvarEvento(): void {
         this.spinner.show();
-        if(this.form.valid){
-
-            this.evento = (this.estadoSalvar === 'post')
-                    ? {...this.form.value}
-                    : {id: this.evento.id, ...this.form.value};
-
-            this.eventoService['post'](this.evento).subscribe(
-                (eventoRetorno: Evento) =>{
-                    this.toastr.success('Evento salvo com Sucesso', 'Sucesso');
-                    this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
-                },
-                (error: any) =>{
-                    console.error(error);
-                    this.spinner.hide();
-                    this.toastr.error('Erro ao salvar evento', 'Evento');
-                },
-                () => this.spinner.hide()
-            );
-        }   
+        if (this.form.valid) {
+            if (this.estadoSalvar === 'post') {
+                this.eventoService.post(this.evento).subscribe(
+                    (eventoRetorno: Evento) => {
+                        this.toastr.success('Evento salvo com Sucesso', 'Sucesso');
+                        this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
+                    },
+                    (error: any) => {
+                        console.error(error);
+                        this.spinner.hide();
+                        this.toastr.error('Erro ao salvar evento', 'Evento');
+                    },
+                    () => this.spinner.hide()
+                );
+            } else if (this.estadoSalvar === 'put') {
+                this.eventoService.put(this.evento).subscribe(
+                    (eventoRetorno: Evento) => {
+                        this.toastr.success('Evento atualizado com Sucesso', 'Sucesso');
+                    },
+                    (error: any) => {
+                        console.error(error);
+                        this.spinner.hide();
+                        this.toastr.error('Erro ao atualizar evento', 'Evento');
+                    },
+                    () => this.spinner.hide()
+                );
+            }
+        }
     }
 
     public salvarLotes(): void{
