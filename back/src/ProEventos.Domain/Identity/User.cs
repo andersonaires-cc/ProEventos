@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using ProEventos.Domain.Enum;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProEventos.Domain.Identity
 {
-    public class User
+    public class User : IdentityUser<int>
     {
         public string PrimeiroNome {get;set;}
         public string UltimoNome {get;set;}
