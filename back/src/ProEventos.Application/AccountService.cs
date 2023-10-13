@@ -82,11 +82,29 @@ namespace ProEventos.Application
             }
         }
 
-        public Task<UserUpdateDto> UpdateAccount(UserUpdateDto userUpdateDto)
+        public async Task<UserUpdateDto> UpdateAccount(UserUpdateDto userUpdateDto)
         {
             try
             {
-                
+                var user = await _userPersist.GetUserByUserNameAsync(userUpdateDto);
+                if(user === null) return null;
+
+                _mapper.Map(userUpdateDto, user);
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var result = await _userManager.ResetPasswordAsync(user,token, userUpdateDto.Password);
+
+                _userPersist.Update<User>(user);
+                if(await _userPersist.SaveChangesAsync())
+                {
+                    var userRetorno = await _userPersist.GetUserByUserNameAsync(user.userName);
+
+                    return _mapper.Map<UserDto>(userRetorno);
+                }
+
+                return null;
+
             }
             catch (System.Exception ex)
             {
