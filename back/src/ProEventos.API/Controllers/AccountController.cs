@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.Application.Contratos;
 
 namespace ProEventos.API.Controllers
 {
@@ -12,7 +15,7 @@ namespace ProEventos.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        private readonly IAccountService _tokenService;
+        private readonly ITokenService _tokenService;
         public AccountController(IAccountService accountService,
                                  ITokenService tokenService)
         {
@@ -21,17 +24,19 @@ namespace ProEventos.API.Controllers
             
         }
 
-        [HttpGet("GetUser")]
-        public async Task<IActionResult>GetUser()
+        [HttpGet("GetUser/{userName}")]
+        public async Task<IActionResult>GetUser(string userName)
         {
             try
             {
-                
+                var user = await _accountService.GetUserByUserNameAsync(userName);
+
+                return Ok(user);
             }
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Erro ao tentar deletar usuário. Erro: {ex.Message}");
+                        $"Erro ao tentar recuperar usuário. Erro: {ex.Message}");
             }
         }
 

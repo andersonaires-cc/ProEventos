@@ -34,7 +34,7 @@ namespace ProEventos.Application
             try
             {
                 var user = await _userManager.Users
-                                .SingleOrDefault(user => user.UserName == userUpdateDto.UserName.Tolower());
+                                .SingleOrDefaultAsync(user => user.UserName == userUpdateDto.UserName.ToLower());
                 return await _signInManager.CheckPasswordSignInAsync(user, password,false);
             }
             catch (System.Exception ex)
@@ -86,8 +86,8 @@ namespace ProEventos.Application
         {
             try
             {
-                var user = await _userPersist.GetUserByUserNameAsync(userUpdateDto);
-                if(user === null) return null;
+                var user = await _userPersist.GetUserByUserNameAsync(userUpdateDto.UserName);
+                if(user == null) return null;
 
                 _mapper.Map(userUpdateDto, user);
 
@@ -98,9 +98,9 @@ namespace ProEventos.Application
                 _userPersist.Update<User>(user);
                 if(await _userPersist.SaveChangesAsync())
                 {
-                    var userRetorno = await _userPersist.GetUserByUserNameAsync(user.userName);
+                    var userRetorno = await _userPersist.GetUserByUserNameAsync(user.UserName);
 
-                    return _mapper.Map<UserDto>(userRetorno);
+                    return _mapper.Map<UserUpdateDto>(userRetorno);
                 }
 
                 return null;
@@ -113,11 +113,11 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string userName)
         {
             try
             {
-                return await _userManager.Users.AnyAsync(user => user.UserName == username.ToLower());
+                return await _userManager.Users.AnyAsync(user => user.UserName == userName.ToLower());
             }
             catch (System.Exception ex)
             {
