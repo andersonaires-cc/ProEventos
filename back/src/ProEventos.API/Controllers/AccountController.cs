@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Contratos;
+using ProEventos.Application.Dtos;
 
 namespace ProEventos.API.Controllers
 {
@@ -16,21 +17,21 @@ namespace ProEventos.API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly ITokenService _tokenService;
+
         public AccountController(IAccountService accountService,
                                  ITokenService tokenService)
         {
             _accountService = accountService;
             _tokenService = tokenService;
-            
         }
 
         [HttpGet("GetUser/{userName}")]
+        [AllowAnonymous]
         public async Task<IActionResult>GetUser(string userName)
         {
             try
             {
                 var user = await _accountService.GetUserByUserNameAsync(userName);
-
                 return Ok(user);
             }
             catch (Exception ex)

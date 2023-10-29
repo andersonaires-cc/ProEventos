@@ -78,7 +78,7 @@ namespace ProEventos.Application
             catch (System.Exception ex)
             {
                 
-                throw new Exception($"Erro ao tentar pegar usuário por Username. Erro: {ex.Message}");
+                throw new Exception($"Erro ao tentar pegar usuário por ===Username==. Erro: {ex.Message}");
             }
         }
 

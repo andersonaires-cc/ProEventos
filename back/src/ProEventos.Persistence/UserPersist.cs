@@ -27,15 +27,15 @@ namespace ProEventos.Persistence
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<User> GetUserByUsernameAsync(string userName)
+        public async Task<User> GetUserByUserNameAsync(string userName)
         {
             return await _context.Users
                                  .SingleOrDefaultAsync(user => user.UserName == userName.ToLower());
         }
 
-        public Task<User> GetUserByUserNameAsync(string userName)
-        {
-            throw new NotImplementedException();
-        }
+        // public Task<User> GetUserByUserNameAsync(string userName)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }
