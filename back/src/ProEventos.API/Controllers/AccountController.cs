@@ -41,5 +41,27 @@ namespace ProEventos.API.Controllers
             }
         }
 
+        [HttpPost("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult>Register(UserDto userDto)
+        {
+            try
+            {
+                if(await _accountService.UserExists(userDto.Username))
+                    return BadRequest("Usuário já existe");
+                var user = await _accountService.CreateAccountAsync(userDto);
+                
+                if(user != null)
+                    return Ok(user);
+                
+                return BadRequest("Usuário não criado, tente novamente mais tarde!");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar recuperar usuário. Erro: {ex.Message}");
+            }
+        }
+
     }
 }
