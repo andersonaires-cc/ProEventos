@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
+using ProEventos.API.Extensions;
 
 namespace ProEventos.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+                var userName = User.GetUserName();
                 var user = await _accountService.GetUserByUserNameAsync(userName);
                 return Ok(user);
             }
