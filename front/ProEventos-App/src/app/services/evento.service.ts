@@ -9,7 +9,7 @@ import { environment } from '@environments/environment';
 )
 export class EventoService {
   baseUrl = environment.apiURL + 'api/eventos';
-  tokenHeader = new HttpHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwidW5pcXVlX25hbWUiOiJjaWNlcmEiLCJuYmYiOjE3MDAwNTI1OTQsImV4cCI6MTcwMDEzODk5MywiaWF0IjoxNzAwMDUyNTk0fQ.whl6fM8OXrlGCbOqrYhjP3QdEInJL68pyMNh7DzBJkGpL-9yzSIGXmN8Q3JstFAqWU6NwAexm4kFau-thP0Frw'});
+  tokenHeader = new HttpHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwidW5pcXVlX25hbWUiOiJjaWNlcmEiLCJuYmYiOjE3MDAwODExMzAsImV4cCI6MTcwMDE2NzUzMCwiaWF0IjoxNzAwMDgxMTMwfQ.fSpbu0Sk8pgpfnctnUtw_Ew9MwPnkRF_YjO1rofztgJ05stTz-Z8vk0kFyxeU5MYPL49mmBoUt1l-wnXIv0cCQ'});
 
   constructor(private http:HttpClient) { }
 
