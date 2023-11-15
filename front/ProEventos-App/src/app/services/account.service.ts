@@ -12,7 +12,7 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<User | null>(1);
   public currenteUser$ = this.currentUserSource.asObservable();
 
-  baseUrl = environment.apiURL = 'api/account/'  
+  baseUrl = environment.apiURL + 'api/account/'  
   constructor(private http: HttpClient) { }
 
   public login(model: any): Observable<void>{
