@@ -9,7 +9,7 @@ import { environment } from '@environments/environment';
 )
 export class EventoService {
   baseUrl = environment.apiURL + 'api/eventos';
-  tokenHeader = new HttpHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwidW5pcXVlX25hbWUiOiJjaWNlcmEiLCJuYmYiOjE3MDAwODExMzAsImV4cCI6MTcwMDE2NzUzMCwiaWF0IjoxNzAwMDgxMTMwfQ.fSpbu0Sk8pgpfnctnUtw_Ew9MwPnkRF_YjO1rofztgJ05stTz-Z8vk0kFyxeU5MYPL49mmBoUt1l-wnXIv0cCQ'});
+  tokenHeader = new HttpHeaders({'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')!).token}`});
 
   constructor(private http:HttpClient) { }
 
