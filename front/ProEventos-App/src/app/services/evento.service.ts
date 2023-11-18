@@ -9,13 +9,13 @@ import { environment } from '@environments/environment';
 )
 export class EventoService {
   baseUrl = environment.apiURL + 'api/eventos';
-  tokenHeader = new HttpHeaders({'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')!).token}`});
+  
 
   constructor(private http:HttpClient) { }
 
   public getEventos(): Observable<Evento[]> {
     return this.http
-        .get<Evento[]>(this.baseUrl, {headers: this.tokenHeader})
+        .get<Evento[]>(this.baseUrl)
         .pipe(take(1));
   }
 

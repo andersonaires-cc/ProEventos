@@ -5,9 +5,7 @@ import { environment } from '@environments/environment';
 import { Observable, ReplaySubject } from 'rxjs';
 import {map, take } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AccountService {
   private currentUserSource = new ReplaySubject<User | null>(1);
   public currenteUser$ = this.currentUserSource.asObservable();
