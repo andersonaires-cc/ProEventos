@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ValidatorField } from '@app/helpers/validator-field';
+import { UserUpdate } from '@app/models/identity/UserUpdate';
+import { AccountService } from '@app/services/account.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-perfil',
@@ -9,20 +14,32 @@ import { ValidatorField } from '@app/helpers/validator-field';
 })
 export class PerfilComponent implements OnInit {
 
+    userUpdate = {} as UserUpdate;
     form!: FormGroup;
 
-    constructor(public fb: FormBuilder){}
+    constructor(
+                private fb: FormBuilder,
+                public accountService: AccountService,
+                private router: Router,
+                private toaster: ToastrService,
+                private spinner: NgxSpinnerService
+    ){}
 
     get f(): any {return this.form.controls;}
 
     ngOnInit(): void {
         this.validation();
+        this.carregarUsuario();
+    }
+
+    private carregarUsuario(): void {
+        this.accountService.getUser();
     }
 
     private validation(): void{
 
         const formOptions: AbstractControlOptions ={
-            validators: ValidatorField.MustMatch('senha','confirmeSenha')
+            validators: ValidatorField.MustMatch('password','confirmePassword')
         };
         
         this.form = this.fb.group({
@@ -34,10 +51,10 @@ export class PerfilComponent implements OnInit {
             ],
             telefone:['', Validators.required] ,
             funcao:['', Validators.required] ,
-            senha:['', 
-                [Validators.required, Validators.minLength(6)]
+            password:['', 
+                [Validators.required, Validators.minLength(4)]
             ],
-            confirmeSenha:['', Validators.required] ,
+            confirmePassword:['', Validators.required] ,
         }, formOptions);
     }
 
