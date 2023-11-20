@@ -19,8 +19,7 @@ export class AccountService {
         map((response: User) =>{
             const user = response;
             if(user){
-                this.setCurrentUser(user)
-                
+                this.setCurrentUser(user)                
             }
         })
     );
