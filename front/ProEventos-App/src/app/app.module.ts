@@ -40,6 +40,7 @@ import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { AccountService } from './services/account.service';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { HomeComponent } from './components/home/home.component';
 
 
 defineLocale('pt-br', ptBrLocale);
@@ -58,7 +59,8 @@ defineLocale('pt-br', ptBrLocale);
     EventoListaComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
