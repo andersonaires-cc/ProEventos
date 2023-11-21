@@ -33,7 +33,22 @@ export class PerfilComponent implements OnInit {
     }
 
     private carregarUsuario(): void {
-        this.accountService.getUser();
+        this.spinner.show();
+        this.accountService.getUser().subscribe(
+            (userRetorno: UserUpdate) => {
+                console.log(userRetorno)
+                this.userUpdate = userRetorno;
+                this.form.patchValue(this.userUpdate);
+                this.toaster.success('Usuário Carregado', 'Sucesso');
+            },
+            (error) => {
+                console.error(error);
+                this.toaster.error('Usuário não carregado', 'Erro');
+                this.router.navigate(['/dashboard'])
+            },
+            () => this.spinner.hide()
+        )
+        // .add(this.spinner.hide);
     }
 
     private validation(): void{
