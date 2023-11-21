@@ -58,14 +58,15 @@ export class PerfilComponent implements OnInit {
         };
         
         this.form = this.fb.group({
-            titulo :['', Validators.required] ,
+            userName: [''],
+            titulo :['NaoInformado', Validators.required] ,
             primeiroNome:['', Validators.required] ,
             ultimoNome: ['', Validators.required],
             email:['', 
                 Validators.required, Validators.email
             ],
-            telefone:['', Validators.required] ,
-            funcao:['', Validators.required] ,
+            phoneNumber:['', Validators.required] ,
+            funcao:['NaoInformado', Validators.required] ,
             password:['', 
                 [Validators.required, Validators.minLength(4)]
             ],
