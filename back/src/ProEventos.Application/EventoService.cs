@@ -100,7 +100,13 @@ namespace ProEventos.Application
                 var eventos = await _eventoPersist.GetAllEventosAsync(userId, pageParams,  includePalestrantes);
                 if(eventos == null)return null;
                 
-                var resultado = _mapper.Map<PageList<EventoDto>>(eventos);     
+                var resultado = _mapper.Map<PageList<EventoDto>>(eventos);
+
+                resultado.CurrentPage = eventos.CurrentPage;
+                resultado.TotalPage = eventos.TotalPage;
+                resultado.PageSize = eventos.PageSize;
+                resultado.TotalCount = eventos.TotalCount;
+
 
                 return resultado;
             }
