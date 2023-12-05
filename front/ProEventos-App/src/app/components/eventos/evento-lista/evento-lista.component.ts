@@ -85,6 +85,8 @@ export class EventoListaComponent  implements OnInit{
       this.eventoId = eventoId;
       this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     }
+
+    public pageChanged($event): void{}
    
     confirm(): void {
       this.modalRef?.hide();
