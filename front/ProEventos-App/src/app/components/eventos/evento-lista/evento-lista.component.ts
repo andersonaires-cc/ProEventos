@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
 import { environment } from '@environments/environment';
+import { Pagination } from '@app/models/pagination';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class EventoListaComponent  implements OnInit{
     public eventos: Evento[] = [];
     public eventosFiltrados?: Evento[] = [];
     public eventoId = 0;
+    public pagination = {} as Pagination;
   
     public larguraImagem = 150;
     public margemImagem = 2;
