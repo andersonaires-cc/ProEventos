@@ -40,6 +40,7 @@ namespace ProEventos.API.Controllers
                 var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), pageParams, true);
                 if(eventos == null) return NoContent();
 
+                Response.AddPagination(eventos.CurrentPage, eventos.PageSize,eventos.TotalCount, eventos.TotalPage);
 
                 return Ok(eventos);
             }

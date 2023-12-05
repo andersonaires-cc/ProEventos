@@ -107,7 +107,6 @@ namespace ProEventos.Application
                 resultado.PageSize = eventos.PageSize;
                 resultado.TotalCount = eventos.TotalCount;
 
-
                 return resultado;
             }
             catch (Exception ex)
