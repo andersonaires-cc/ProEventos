@@ -7,6 +7,7 @@ import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
 import { environment } from '@environments/environment';
 import { PaginatedResult, Pagination } from '@app/models/Pagination';
+import { Subject, debounceTime } from 'rxjs';
 
 
 @Component({
@@ -24,25 +25,33 @@ export class EventoListaComponent  implements OnInit{
     public margemImagem = 2;
     public exibirImagem = true;
 
+    termoBuscarChanged: Subject<string> = new Subject<string>();
   
     public filtrarEventos(evt: any): void{
-      this.eventoService.getEventos(
-            this.pagination.currentPage,
-            this.pagination.itemsPerPage,
-            evt.value
-            ).subscribe(
-                {
-                    next: (paginatedResult: PaginatedResult<Evento[]>) => {
-                      this.eventos = paginatedResult.result;
-                      this.pagination = paginatedResult.pagination;
-                    },
-                    error: (error: any) => {
-                      this.spinner.hide();
-                      this.toastr.error('Erro ao carregar os eventos','Error!')
-                    },
-                    complete : () => this.spinner.hide()
-                  }
+        if(this.termoBuscarChanged.observers.length ==0){            
+            this.termoBuscarChanged.pipe(debounceTime(1000)).subscribe(
+                filtrarPor => {
+                    this.spinner.show();
+                    this.eventoService.getEventos(
+                    this.pagination.currentPage,
+                    this.pagination.itemsPerPage,
+                    filtrarPor
+                    ).subscribe(
+                    {
+                        next: (paginatedResult: PaginatedResult<Evento[]>) => {
+                                this.eventos = paginatedResult.result;
+                                this.pagination = paginatedResult.pagination;
+                        },
+                        error: (error: any) => {
+                                this.spinner.hide();
+                                this.toastr.error('Erro ao carregar os eventos','Error!')
+                                },
+                        complete : () => this.spinner.hide()
+                    })
+                }
             )
+        }
+        this.termoBuscarChanged.next(evt.value);  
     }
     
     constructor(
