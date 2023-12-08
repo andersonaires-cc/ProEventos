@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
 import { environment } from '@environments/environment';
-import { Pagination } from '@app/models/pagination';
+import { PaginatedResult, Pagination } from '@app/models/pagination';
 
 
 @Component({
@@ -54,8 +54,13 @@ export class EventoListaComponent  implements OnInit{
     ){}
   
     public ngOnInit(): void{
-      this.carregarEventos();
-      this.spinner.show();
+      this.pagination = {
+        currentPage: 1,
+        itemsPerPage: 3,
+        totalItems:2
+    } as Pagination;
+    
+      this.carregarEventos();      
     }
   
     public alterarImagem(): void{
@@ -69,10 +74,14 @@ export class EventoListaComponent  implements OnInit{
     }
   
     public carregarEventos(): void{
-      this.eventoService.getEventos().subscribe({
-        next: (eventos: Evento[]) => {
-          this.eventos = eventos;
+      this.spinner.show();
+
+      this.eventoService.getEventos(this.pagination.currentPage,
+                                     this.pagination.itemsPerPage).subscribe({
+        next: (paginatedResult: PaginatedResult<Evento[]>) => {
+          this.eventos = paginatedResult.result;
           this.eventosFiltrados = this.eventos;
+          this.pagination = paginatedResult.pagination;
         },
         error: (error: any) => {
           this.spinner.hide();
