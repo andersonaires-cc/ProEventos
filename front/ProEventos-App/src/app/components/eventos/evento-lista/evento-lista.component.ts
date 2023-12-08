@@ -17,32 +17,32 @@ import { PaginatedResult, Pagination } from '@app/models/Pagination';
 export class EventoListaComponent  implements OnInit{
     modalRef?: BsModalRef;
     public eventos: Evento[] = [];
-    public eventosFiltrados?: Evento[] = [];
     public eventoId = 0;
     public pagination = {} as Pagination;
   
     public larguraImagem = 150;
     public margemImagem = 2;
     public exibirImagem = true;
-    private filtroListado = '';
+
   
-    public get filtroLista(){
-      return this.filtroListado;
-    }
-    public set filtroLista(value : string){
-      this.filtroListado = value;
-      this.eventosFiltrados = this.filtroListado ? this.filtrarEventos(this.filtroLista) : this.eventos;
-    }
-  
-    public filtrarEventos(filtrarPor: string): Evento[]{
-      filtrarPor = filtrarPor.toLocaleLowerCase();
-      return this.eventos.filter(
-          (evento:
-              {local: any; tema: string;}) => 
-                  evento.tema.toLocaleLowerCase().indexOf(filtrarPor)!==-1
-                  ||
-                  evento.local.toLocaleLowerCase().indexOf(filtrarPor)!==-1
-      )
+    public filtrarEventos(evt: any): void{
+      this.eventoService.getEventos(
+            this.pagination.currentPage,
+            this.pagination.itemsPerPage,
+            evt.value
+            ).subscribe(
+                {
+                    next: (paginatedResult: PaginatedResult<Evento[]>) => {
+                      this.eventos = paginatedResult.result;
+                      this.pagination = paginatedResult.pagination;
+                    },
+                    error: (error: any) => {
+                      this.spinner.hide();
+                      this.toastr.error('Erro ao carregar os eventos','Error!')
+                    },
+                    complete : () => this.spinner.hide()
+                  }
+            )
     }
     
     constructor(
@@ -80,7 +80,6 @@ export class EventoListaComponent  implements OnInit{
                                      this.pagination.itemsPerPage).subscribe({
         next: (paginatedResult: PaginatedResult<Evento[]>) => {
           this.eventos = paginatedResult.result;
-          this.eventosFiltrados = this.eventos;
           this.pagination = paginatedResult.pagination;
         },
         error: (error: any) => {
