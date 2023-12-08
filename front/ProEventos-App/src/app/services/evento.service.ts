@@ -4,7 +4,8 @@ import { Observable, take } from 'rxjs';
 import { map} from 'rxjs/operators';
 import { Evento } from '../models/Evento';
 import { environment } from '@environments/environment';
-import { PaginatedResult } from '@app/models/pagination';
+import { PaginatedResult } from '../models/Pagination';
+
 
 @Injectable(
     // {providedIn: 'root'}

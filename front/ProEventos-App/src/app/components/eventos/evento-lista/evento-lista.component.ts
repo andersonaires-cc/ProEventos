@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
 import { environment } from '@environments/environment';
-import { PaginatedResult, Pagination } from '@app/models/pagination';
+import { PaginatedResult, Pagination } from '@app/models/Pagination';
 
 
 @Component({
@@ -97,7 +97,10 @@ export class EventoListaComponent  implements OnInit{
       this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     }
 
-    public pageChanged($event): void{}
+    public pageChanged(event: any): void{
+        this.pagination.currentPage = event.page;
+        this.carregarEventos();
+    }
    
     confirm(): void {
       this.modalRef?.hide();
