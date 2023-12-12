@@ -6,7 +6,7 @@ using ProEventos.Domain;
 
 namespace ProEventos.Persistence.Contratos
 {
-    public interface IRedeSocialPersist : IGeralPersit
+    public interface IRedeSocialPersist : IGeralPersist
     {
         Task<RedeSocial> GetRedeSocialEventoByIdsAsync(int eventoId, int id);
         Task<RedeSocial> GetRedeSocialPalestrantesByIdAsync(int palestranteId, int id);
