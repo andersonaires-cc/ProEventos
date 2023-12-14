@@ -123,15 +123,15 @@ namespace ProEventos.Application
             }
         }        
 
-        public async Task<bool> DeleteLote(int eventoId, int loteId)
+        public async Task<bool> DeleteByEvento(int eventoId, int redeSocialId)
         {
             try
             {
-                var lote = await _lotePersist.GetLoteByIdsAsync(eventoId, loteId);
-                if(lote == null) throw new Exception("Lote para delete não encontrado.");
+                var RedeSocial = await _redeSocialPersist.GetRedeSocialEventoByIdsAsync(eventoId, redeSocialId);
+                if(RedeSocial == null) throw new Exception("Rede Social no evento para delete não encontrado.");
 
-                _geralPersit.Delete<Lote>(lote);
-                return await _geralPersit.SaveChangesAsync();
+                _redeSocialPersist.Delete<RedeSocial>(RedeSocial);
+                return await _redeSocialPersist.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -139,6 +139,25 @@ namespace ProEventos.Application
                 throw new Exception(ex.Message);
             }
         }
+        
+        public async Task<bool> DeleteByPalestrante(int palestranteId, int redeSocialId)
+        {
+            try
+            {
+                var RedeSocial = await _redeSocialPersist.GetRedeSocialPalestranteByIdsAsync(palestranteId, redeSocialId);
+                if(RedeSocial == null) throw new Exception("Rede Social por palestrante para delete não encontrado.");
+
+                _redeSocialPersist.Delete<RedeSocial>(RedeSocial);
+                return await _redeSocialPersist.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception(ex.Message);
+            }
+        }
+                
+
         public async Task<LoteDto[]> GetLotesByEventoIdAsync(int eventoId)
         {
             try
