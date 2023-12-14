@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ProEventos.Application.Dtos
 {
-    public class PalestranteUpdatedDto
+    public class PalestranteUpdateDto
     {
         public int Id { get; set; }
         public string MiniCurriculo { get; set; }

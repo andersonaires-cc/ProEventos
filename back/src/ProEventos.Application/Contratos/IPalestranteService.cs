@@ -11,7 +11,7 @@ namespace ProEventos.Application.Contratos
     {
         Task<PalestranteDto> AddPalestrantes(int userId, PalestranteAddDto model);
         Task<PalestranteDto> UpdatePalestrante(int userId, PalestranteUpdateDto model);
-        Task<PageList<EventoDto>> GetAllPalestrantesAsync(int userId, PageParams pageParams, bool includeEventos= false);        
-        Task<EventoDto> GetPalestranteByUserIdAsync(int userId, bool includeEventos = false);         
+        Task<PageList<PalestranteDto>> GetAllPalestrantesAsync(PageParams pageParams, bool includeEventos= false);        
+        Task<PalestranteDto> GetPalestranteByUserIdAsync(int userId, bool includeEventos = false);
     }
 }

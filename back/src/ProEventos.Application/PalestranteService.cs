@@ -22,19 +22,19 @@ namespace ProEventos.Application
             _mapper = mapper;
             
         }
-        public async Task<EventoDto> AddEventos(int userId,EventoDto model)
+        public async Task<PalestranteDto> AddPalestrantes(int userId,PalestranteAddDto model)
         {
             try
             {
-                var evento = _mapper.Map<Evento>(model);
-                evento.UserId = userId;
+                var Palestrante = _mapper.Map<Palestrante>(model);
+                Palestrante.UserId = userId;
 
-                _geralPersit.Add<Evento>(evento);
-                if(await _geralPersit.SaveChangesAsync())
+                _palestrantePersist.Add<Palestrante>(Palestrante);
+                if(await _palestrantePersist.SaveChangesAsync())
                 {
-                    var eventoRetorno = await _eventoPersist.GetEventoByIdAsync(userId,evento.Id, false);
+                    var PalestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId,false);
 
-                    return _mapper.Map<EventoDto>(eventoRetorno);
+                    return _mapper.Map<PalestranteDto>(PalestranteRetorno);
                 }
                 return null;
             }
@@ -45,25 +45,25 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<EventoDto> UpdateEvento(int userId,int eventoId, EventoDto model)
+        public async Task<PalestranteDto> UpdatePalestrante(int userId, PalestranteUpdateDto model)
         {
             try
             {
-                var evento = await _eventoPersist.GetEventoByIdAsync(userId,eventoId, false);
-                if(evento == null)return null;
+                var Palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
+                if(Palestrante == null)return null;
 
-                model.Id = evento.Id;
+                model.Id = Palestrante.Id;
                 model.UserId = userId;
 
-                _mapper.Map(model,evento);
+                _mapper.Map(model,Palestrante);
 
-                _geralPersit.Update<Evento>(evento);
+                _palestrantePersist.Update<Palestrante>(Palestrante);
 
-                if(await _geralPersit.SaveChangesAsync())
+                if(await _palestrantePersist.SaveChangesAsync())
                 {
-                    var eventoRetorno = await _eventoPersist.GetEventoByIdAsync(userId,evento.Id, false);
+                    var PalestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
 
-                    return _mapper.Map<EventoDto>(eventoRetorno);
+                    return _mapper.Map<PalestranteDto>(PalestranteRetorno);
                 }
                 return null;
             }
@@ -73,36 +73,20 @@ namespace ProEventos.Application
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<bool> DeleteEvento(int userId,int eventoId)
+
+        public async Task<PageList<PalestranteDto>> GetAllPalestrantesAsync(PageParams pageParams, bool includeEventos = false)
         {
             try
             {
-                var evento = await _eventoPersist.GetEventoByIdAsync(userId,eventoId, false);
-                if(evento == null) throw new Exception("Evento para delete não encontrado.");
-
-                _geralPersit.Delete<Evento>(evento);
-                return(await _geralPersit.SaveChangesAsync());
-            }
-            catch (Exception ex)
-            {
+                var Palestrantes = await _palestrantePersist.GetAllPalestrantesAsync(pageParams,  includeEventos);
+                if(Palestrantes == null)return null;
                 
-                throw new Exception(ex.Message);
-            }
-        }
+                var resultado = _mapper.Map<PageList<PalestranteDto>>(Palestrantes);
 
-        public async Task<PageList<EventoDto>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes = false)
-        {
-            try
-            {
-                var eventos = await _eventoPersist.GetAllEventosAsync(userId, pageParams,  includePalestrantes);
-                if(eventos == null)return null;
-                
-                var resultado = _mapper.Map<PageList<EventoDto>>(eventos);
-
-                resultado.CurrentPage = eventos.CurrentPage;
-                resultado.TotalPage = eventos.TotalPage;
-                resultado.PageSize = eventos.PageSize;
-                resultado.TotalCount = eventos.TotalCount;
+                resultado.CurrentPage = Palestrantes.CurrentPage;
+                resultado.TotalPage = Palestrantes.TotalPage;
+                resultado.PageSize = Palestrantes.PageSize;
+                resultado.TotalCount = Palestrantes.TotalCount;
 
                 return resultado;
             }
@@ -112,14 +96,14 @@ namespace ProEventos.Application
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<EventoDto> GetEventoByIdAsync(int userId,int eventoId, bool includePalestrantes = false)
+        public async Task<PalestranteDto> GetPalestranteByUserIdAsync(int UserId, bool includePalestrantes = false)
         {
             try
             {
-                var evento = await _eventoPersist.GetEventoByIdAsync(userId,eventoId, includePalestrantes);
-                if(evento ==null)return null;
+                var Palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(UserId, includePalestrantes);
+                if(Palestrante ==null)return null;
 
-                var resultado = _mapper.Map<EventoDto>(evento);     
+                var resultado = _mapper.Map<PalestranteDto>(Palestrante);     
 
                 return resultado;
             }
