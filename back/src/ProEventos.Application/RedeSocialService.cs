@@ -216,8 +216,8 @@ namespace ProEventos.Application
         {
             try
             {
-                var RedeSocial = await _redeSocialPersist.GetRedeSocialEventoByIdsAsync(palestranteId,redeSocialId);
-                if(RedeSocial ==null)return null;
+                var RedeSocial = await _redeSocialPersist.GetRedeSocialPalestrantesByIdsAsync(palestranteId,redeSocialId);
+                if(RedeSocial == null)return null;
 
                 var resultado = _mapper.Map<RedeSocialDto>(RedeSocial);     
 
