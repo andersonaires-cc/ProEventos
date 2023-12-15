@@ -91,7 +91,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPut("palestrante")]
-        public async Task<IActionResult> SaveByEvento(RedeSocialDto[] models)
+        public async Task<IActionResult> SaveByPalestrante(RedeSocialDto[] models)
         {
             try
             {
@@ -110,27 +110,51 @@ namespace ProEventos.API.Controllers
             }
         }
         
-
-        [HttpDelete("{eventoId}/{loteId}")]
-        public async Task<IActionResult> Delete(int eventoId, int loteId)
+        [HttpDelete("evento/{eventoId}/{redeSocialId}")]
+        public async Task<IActionResult> DeleteByEvento(int eventoId, int redeSocialId)
         {
             try
-            {
-                
-                var lote  = await _loteService.GetLoteByIdsAsync(eventoId, loteId);
-                if(lote == null) return NoContent();
+            {   
+                if(!(await AutorEvento(eventoId)))
+                    return Unauthorized();
 
-                return await _loteService.DeleteLote(lote.EventoId, lote.Id) 
-                        ? Ok(new {message = "Lote Deletado"}) 
-                        : throw new Exception("Ocorreu um problema não específico ao tentar deletar Lote.");
+                var RedeSocial  = await _redeSocialService.GetRedeSocialEventoByIdsAsync(eventoId, redeSocialId);
+                if(RedeSocial == null) return NoContent();
+
+                return await _redeSocialService.DeleteByEvento(eventoId, redeSocialId) 
+                        ? Ok(new {message = "Rede Social Deletada"}) 
+                        : throw new Exception("Ocorreu um problema não específico ao tentar deletar Rede Social por evento.");
             }
             catch (Exception ex)
             {
                 
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Erro ao tentar deletar lote. Erro: {ex.Message}");
+                        $"Erro ao tentar deletar Rede Social por evento+. Erro: {ex.Message}");
             }
         }
+
+        [HttpDelete("palestrante/{redeSocialId}")]
+        public async Task<IActionResult> DeleteByPalestrante(int redeSocialId)
+        {
+            try
+            {   
+                var palestrante = await _palestranteService.GetPalestranteByUserIdAsync(User.GetUserId());
+                if(palestrante == null) return Unauthorized();
+
+                var RedeSocial  = await _redeSocialService.GetRedeSocialPalestranteByIdsAsync(palestrante.Id, redeSocialId);
+                if(RedeSocial == null) return NoContent();
+
+                return await _redeSocialService.DeleteByPalestrante(palestrante.Id, redeSocialId) 
+                        ? Ok(new {message = "Rede Social Deletada"}) 
+                        : throw new Exception("Ocorreu um problema não específico ao tentar deletar Rede Social por palestrante.");
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar deletar Rede Social por evento+. Erro: {ex.Message}");
+            }
+        }        
 
         [NonAction]
         private async Task<bool> AutorEvento(int eventoId)
