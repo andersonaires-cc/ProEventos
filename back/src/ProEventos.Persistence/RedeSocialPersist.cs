@@ -26,7 +26,7 @@ namespace ProEventos.Persistence
 
             return await query.FirstOrDefaultAsync();
         }
-        public async Task<RedeSocial> GetRedeSocialPalestrantesByIdAsync(int palestranteId, int id){
+        public async Task<RedeSocial> GetRedeSocialPalestrantesByIdsAsync(int palestranteId, int id){
             IQueryable<RedeSocial> query = _context.RedeSociais;
 
             query = query.AsNoTracking()
@@ -43,7 +43,7 @@ namespace ProEventos.Persistence
 
             return await query.ToArrayAsync();
         }
-        public async Task<RedeSocial[]> GetallByPalestranteIdAsync(int palestranteId){
+        public async Task<RedeSocial[]> GetAllByPalestranteIdAsync(int palestranteId){
             IQueryable<RedeSocial> query = _context.RedeSociais;
 
             query = query.AsNoTracking()

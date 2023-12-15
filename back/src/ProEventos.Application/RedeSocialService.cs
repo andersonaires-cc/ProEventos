@@ -144,7 +144,7 @@ namespace ProEventos.Application
         {
             try
             {
-                var RedeSocial = await _redeSocialPersist.GetRedeSocialPalestranteByIdsAsync(palestranteId, redeSocialId);
+                var RedeSocial = await _redeSocialPersist.GetRedeSocialPalestrantesByIdsAsync(palestranteId, redeSocialId);
                 if(RedeSocial == null) throw new Exception("Rede Social por palestrante para delete não encontrado.");
 
                 _redeSocialPersist.Delete<RedeSocial>(RedeSocial);
