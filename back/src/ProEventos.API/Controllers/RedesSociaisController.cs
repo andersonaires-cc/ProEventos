@@ -70,22 +70,46 @@ namespace ProEventos.API.Controllers
             }
         }        
 
-        [HttpPut("{eventoId}")]
-        public async Task<IActionResult> SaveLotes(int eventoId, LoteDto[] models)
+        [HttpPut("evento/{eventoId}")]
+        public async Task<IActionResult> SaveByEvento(int eventoId, RedeSocialDto[] models)
         {
             try
             {
-                var lotes = await _loteService.SaveLotes(eventoId, models);
-                if(lotes == null)return BadRequest("Erro ao tentar adicionar lote.");
-                return Ok(lotes);
+                if(!(await AutorEvento(eventoId)))
+                    return Unauthorized();
+
+                var redeSocial = await _redeSocialService.SaveByEvento(eventoId, models);
+                if(redeSocial == null)return BadRequest("Erro ao tentar adicionar lote.");
+                return Ok(redeSocial);
             }
             catch (Exception ex)
             {
                 
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                        $"Erro ao tentar salvar lotes. Erro: {ex.Message}");
+                        $"Erro ao tentar salvar rede social. Erro: {ex.Message}");
             }
         }
+
+        [HttpPut("palestrante")]
+        public async Task<IActionResult> SaveByEvento(RedeSocialDto[] models)
+        {
+            try
+            {
+                var palestrante = await _palestranteService.GetPalestranteByUserIdAsync(User.GetUserId());
+                if(palestrante == null) return Unauthorized();
+
+                var redeSocial = await _redeSocialService.SaveByPalestrante(palestrante.Id, models);
+                if(redeSocial == null)return BadRequest("Erro ao tentar adicionar lote.");
+                return Ok(redeSocial);
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar salvar rede social. Erro: {ex.Message}");
+            }
+        }
+        
 
         [HttpDelete("{eventoId}/{loteId}")]
         public async Task<IActionResult> Delete(int eventoId, int loteId)
