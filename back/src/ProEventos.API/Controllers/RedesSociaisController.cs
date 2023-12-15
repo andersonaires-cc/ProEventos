@@ -5,6 +5,7 @@ using ProEventos.Application.Contratos;
 using Microsoft.AspNetCore.Http;
 using ProEventos.Application.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using ProEventos.API.Extensions;
 
 namespace ProEventos.API.Controllers
 {
@@ -18,25 +19,27 @@ namespace ProEventos.API.Controllers
         private readonly IPalestranteService _palestranteService;
         private readonly IEventoService _eventoService;
         
-        public RedesSociaisController(  IRedeSocialService RedeSocialService,
+        public RedesSociaisController(  IRedeSocialService redeSocialService,
                                         IEventoService eventoService,
                                         IPalestranteService palestranteService)
         {
             _eventoService = eventoService;
             _palestranteService = palestranteService;
-            _redeSocialService = RedeSocialService;
+            _redeSocialService = redeSocialService;
         }
 
-        [HttpGet("{eventoId}")]
-        public async Task<IActionResult> Get(int eventoId)
+        [HttpGet("evento/{eventoId}")]
+        public async Task<IActionResult> GetByEvento(int eventoId)
         {
             try
             {
-                var lotes = await _loteService.GetLotesByEventoIdAsync(eventoId);
-                if(lotes == null) return NoContent();
+                if(!(await AutorEvento(eventoId)))
+                    return Unauthorized();
+                
+                var redeSocial = await _redeSocialService.GetAllByEventoIdAsync(eventoId);
+                if(redeSocial == null) return NoContent();
 
-
-                return Ok(lotes);
+                return Ok(redeSocial);
             }
             catch (Exception ex)
             {
@@ -45,6 +48,27 @@ namespace ProEventos.API.Controllers
                         $"Erro ao tentar recuperar lotes. Erro: {ex.Message}");
             }
         }
+
+        [HttpGet("palestrante")]
+        public async Task<IActionResult> GetByPalestrante()
+        {
+            try
+            {
+                var palestrante = await _palestranteService.GetPalestranteByUserIdAsync(User.GetUserId());
+                if(palestrante == null) return Unauthorized();
+                
+                var redeSocial = await _redeSocialService.GetAllByEventoIdAsync(palestrante.Id);
+                if(redeSocial == null) return NoContent();
+
+                return Ok(redeSocial);
+            }
+            catch (Exception ex)
+            {
+                
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                        $"Erro ao tentar recuperar lotes. Erro: {ex.Message}");
+            }
+        }        
 
         [HttpPut("{eventoId}")]
         public async Task<IActionResult> SaveLotes(int eventoId, LoteDto[] models)
@@ -82,6 +106,14 @@ namespace ProEventos.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                         $"Erro ao tentar deletar lote. Erro: {ex.Message}");
             }
+        }
+
+        [NonAction]
+        private async Task<bool> AutorEvento(int eventoId)
+        {
+            var evento = await _eventoService.GetEventoByIdAsync(User.GetUserId(), eventoId, false);
+            if(evento == null) return false;
+            return true;
         }
     }
 }
