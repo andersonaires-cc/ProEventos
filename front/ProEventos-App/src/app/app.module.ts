@@ -43,6 +43,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
 import { AccountService } from './services/account.service';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { HomeComponent } from './components/home/home.component';
+import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/perfil-detalhe.component';
 
 
 defineLocale('pt-br', ptBrLocale);
@@ -62,7 +63,8 @@ defineLocale('pt-br', ptBrLocale);
     UserComponent,
     LoginComponent,
     RegistrationComponent,
-    HomeComponent
+    HomeComponent,
+    PerfilDetalheComponent
   ],
   imports: [
     BrowserModule,
