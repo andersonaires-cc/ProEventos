@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PerfilComponent implements OnInit {
 
-    userUpdate = {} as UserUpdate;
+    public usuario = {} as UserUpdate;
     form!: FormGroup;
 
     constructor(){}
@@ -22,6 +22,10 @@ export class PerfilComponent implements OnInit {
     get f(): any {return this.form.controls;}
 
     ngOnInit(): void {
+    }
+
+    public setFormValue(usuario: UserUpdate): void {
+        this.usuario = usuario;
     }
 
 }
