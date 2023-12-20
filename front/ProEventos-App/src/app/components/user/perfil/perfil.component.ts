@@ -17,6 +17,11 @@ export class PerfilComponent implements OnInit {
     public usuario = {} as UserUpdate;
     form!: FormGroup;
 
+
+    public get ehPalestrante(): boolean{
+        return this.usuario.funcao === 'Palestrante';
+    }
+
     constructor(){}
 
     get f(): any {return this.form.controls;}
