@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 export class PerfilComponent implements OnInit {
 
     public usuario = {} as UserUpdate;
+    public imagemURL = '';
+    public file: File; 
     form!: FormGroup;
 
 
@@ -22,15 +24,41 @@ export class PerfilComponent implements OnInit {
         return this.usuario.funcao === 'Palestrante';
     }
 
-    constructor(){}
+    constructor(private spinner: NgxSpinnerService,
+                private toastr: ToastrService,
+                private accountService: AccountService){}
 
-    get f(): any {return this.form.controls;}
 
     ngOnInit(): void {
     }
 
     public setFormValue(usuario: UserUpdate): void {
         this.usuario = usuario;
+    }
+
+    onFileChange(ev: any): void{
+        const reader = new FileReader();
+
+        this.file = ev.target.files[0];
+        reader.onload = (event: any) => this.imagemURL = event.target.result;
+
+        reader.readAsDataURL(this.file);
+
+        this.uploadImagem();
+    }
+
+
+    private uploadImagem(): void {
+        this.spinner.show();
+        this.accountService
+            .postUpload(this.file)
+            .subscribe(
+                () => this.toastr.success('Imagem atualizada com sucesso', 'Sucesso'),
+                (error: any) =>{
+                    this.toastr.error('Error ao fazer upload de imagem', 'Erro!'),
+                    console.error(error);
+                }
+            ).add(() => this.spinner.hide());
     }
 
 }
