@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ValidatorField } from '@app/helpers/validator-field';
 import { UserUpdate } from '@app/models/identity/UserUpdate';
 import { AccountService } from '@app/services/account.service';
+import { environment } from '@environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
@@ -30,10 +31,15 @@ export class PerfilComponent implements OnInit {
 
 
     ngOnInit(): void {
+
     }
 
     public setFormValue(usuario: UserUpdate): void {
         this.usuario = usuario;
+        if(this.usuario.imagemURL)
+            this.imagemURL = environment.apiURL + `resources/perfil/${this.usuario.imagemURL}`;
+        else
+        this.imagemURL = './assets/img/perfil.png';
     }
 
     onFileChange(ev: any): void{
