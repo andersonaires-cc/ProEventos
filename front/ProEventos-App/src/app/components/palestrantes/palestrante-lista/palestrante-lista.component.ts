@@ -14,7 +14,7 @@ import { Subject, debounceTime } from 'rxjs';
   styleUrls: ['./palestrante-lista.component.scss']
 })
 export class PalestranteListaComponent implements OnInit{
-    public palestrantes: Palestrante[] = [];
+    public Palestrantes: Palestrante[] = [];
     public eventoId = 0;
     public pagination = {} as Pagination;
     
@@ -51,7 +51,7 @@ export class PalestranteListaComponent implements OnInit{
                     ).subscribe(
                     {
                         next: (paginatedResult: PaginatedResult<Palestrante[]>) => {
-                                this.palestrantes = paginatedResult.result;
+                                this.Palestrantes = paginatedResult.result;
                                 this.pagination = paginatedResult.pagination;
                         },
                         error: (error: any) => {
@@ -72,7 +72,7 @@ export class PalestranteListaComponent implements OnInit{
         this.palestranteService.getPalestrantes(this.pagination.currentPage,
                                        this.pagination.itemsPerPage).subscribe({
           next: (paginatedResult: PaginatedResult<Palestrante[]>) => {
-            this.palestrantes = paginatedResult.result;
+            this.Palestrantes = paginatedResult.result;
             this.pagination = paginatedResult.pagination;
           },
           error: (error: any) => {
