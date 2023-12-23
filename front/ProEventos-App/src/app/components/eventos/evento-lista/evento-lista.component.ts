@@ -64,10 +64,10 @@ export class EventoListaComponent  implements OnInit{
   
     public ngOnInit(): void{
       this.pagination = {
-        currentPage: 1,
-        itemsPerPage: 3,
-        totalItems:2
-    } as Pagination;
+            currentPage: 1,
+            itemsPerPage: 3,
+            totalItems:2
+        } as Pagination;
     
       this.carregarEventos();      
     }

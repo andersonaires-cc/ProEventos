@@ -14,7 +14,7 @@ export class PalestranteService {
 
     constructor(private http:HttpClient) { }
   
-    public getEventos(page?: number, itemsPerPage?: number, term?: string): Observable<PaginatedResult<Palestrante[]>> {
+    public getPalestrantes(page?: number, itemsPerPage?: number, term?: string): Observable<PaginatedResult<Palestrante[]>> {
       const paginatedResult : PaginatedResult<Palestrante[]> = new PaginatedResult<Palestrante[]>();
       
       let params = new HttpParams;
