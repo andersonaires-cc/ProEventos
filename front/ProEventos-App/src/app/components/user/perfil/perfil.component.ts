@@ -39,7 +39,7 @@ export class PerfilComponent implements OnInit {
         if(this.usuario.imagemURL)
             this.imagemURL = environment.apiURL + `resources/perfil/${this.usuario.imagemURL}`;
         else
-        this.imagemURL = './assets/img/perfil.png';
+            this.imagemURL = './assets/images/perfil.png';
     }
 
     onFileChange(ev: any): void{

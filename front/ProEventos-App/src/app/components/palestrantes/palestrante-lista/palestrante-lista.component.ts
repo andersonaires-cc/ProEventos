@@ -85,7 +85,7 @@ export class PalestranteListaComponent implements OnInit{
           },
           error: (error: any) => {
             this.spinner.hide();
-            this.toastr.error('Erro ao carregar os eventos','Error!')
+            this.toastr.error('Erro ao carregar a lista de palestrante','Error!')
           },
           complete : () => this.spinner.hide()
         });
