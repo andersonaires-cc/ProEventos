@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { PalestranteService } from '@app/services/palestrante.service';
+import { NgxSpinner } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-palestrante-detalhe',
@@ -6,9 +10,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./palestrante-detalhe.component.scss']
 })
 export class PalestranteDetalheComponent implements OnInit{
-    constructor() {}
+    public form!: FormGroup;
+    public situacaoDoForm = '';
+    public corDaDescricao = '';
+    
+    constructor(
+        private fb: FormBuilder,
+        public palestranteService: PalestranteService,
+        private toastr: ToastrService,
+        private spinner: NgxSpinner
+    ) {}
 
     ngOnInit(): void {
-        
+        this.validation();
+    }
+
+    private validation(): void{
+        this.form = this.fb.group({
+            miniCurriculo: ['']
+        })
+    }
+
+    public get f(): any{
+        return this.form.controls;
     }
 }
