@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PalestranteService } from '@app/services/palestrante.service';
-import { NgxSpinner } from 'ngx-spinner';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { debounceTime, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-palestrante-detalhe',
@@ -18,11 +19,12 @@ export class PalestranteDetalheComponent implements OnInit{
         private fb: FormBuilder,
         public palestranteService: PalestranteService,
         private toastr: ToastrService,
-        private spinner: NgxSpinner
+        private spinner: NgxSpinnerService
     ) {}
 
     ngOnInit(): void {
         this.validation();
+        this.verificaForm();
     }
 
     private validation(): void{
@@ -33,5 +35,32 @@ export class PalestranteDetalheComponent implements OnInit{
 
     public get f(): any{
         return this.form.controls;
+    }
+
+    private verificaForm(): void{
+        this.form.valueChanges // Observable
+            .pipe(
+                map(() =>{
+                    this.situacaoDoForm = 'Minicurriculo está sendo atualizado !';
+                    this.corDaDescricao = 'text-warning';
+                }),
+                debounceTime(1000), //Segurar o estado do observable
+                tap(() => this.spinner.show())
+            )
+            .subscribe(
+                () =>{
+                    this.palestranteService
+                        .put({...this.form.value})
+                        .subscribe(
+                            () =>{
+                            this.situacaoDoForm = 'Minicurriculo foi atualizado !'
+                            this.corDaDescricao = 'text-success';
+                            },
+                            () =>{
+                                this.toastr.error('Error ao tentar atualizar palestrante', "Error");
+                            }
+                        ).add(() => this.spinner.hide())
+                }
+            );
     }
 }
