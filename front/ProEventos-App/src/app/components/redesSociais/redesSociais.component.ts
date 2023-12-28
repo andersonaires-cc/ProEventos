@@ -30,6 +30,9 @@ export class RedesSociaisComponent implements OnInit{
     ) {}
         
     ngOnInit() {
+        if(this.eventoId === 0){
+            this.carregarRedeSocial('Palestrante')
+        }
         this.validation();
     }
         
