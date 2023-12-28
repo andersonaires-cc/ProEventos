@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RedeSocial } from '@app/models/RedeSocial';
+import { RedeSocialServiceService } from '@app/services/redeSocial.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -26,14 +27,32 @@ export class RedesSociaisComponent implements OnInit{
         private modalService: BsModalService,
         private toastr: ToastrService,
         private spinner: NgxSpinnerService,
-        private redeSocialService: RedeSocialService
+        private redeSocialService: RedeSocialServiceService
     ) {}
         
     ngOnInit() {
         if(this.eventoId === 0){
-            this.carregarRedeSocial('Palestrante')
+            this.carregarRedesSociais('Palestrante')
         }
         this.validation();
+    }
+
+    private carregarRedesSociais(origem: string, id: number=0): void{
+        this.spinner.show();
+
+        this.redeSocialService
+            .getRedesSociais(origem,id)
+            .subscribe(
+                (redeSocialRetorno: RedeSocial[]) => {
+                    redeSocialRetorno.forEach((redeSocial) => {
+                        this.redesSociais.push(this.criarRedeSocial(redeSocial))
+                    });
+                },
+                (error: any) => {
+                    this.toastr.error('Erro ao tentar carregar Rede Social', 'Erro');
+                    console.error(error);
+                }
+            ).add(() => this.spinner.hide());
     }
         
     public validation(): void{
@@ -62,20 +81,20 @@ export class RedesSociaisComponent implements OnInit{
         return {'is-invalid': campoForm?.errors && campoForm.touched};
     }
         
-    public salvarLotes(): void{
-        if(this.formRS.valid){
-            this.spinner.show();
-            this.redeSocialService.saveLote(this.eventoId, this.formRS.value.lotes).subscribe(
-                () => {
-                    this.toastr.success('Lotes salvos com Sucesso!', 'Sucesso');
-                },
-                (error: any) => {
-                    this.toastr.error('Erro ao tentar salvar lotes.','Erro');
-                    console.error(error);
-                }
-                ).add(() => this.spinner.hide());
-            }
-        }
+    public salvarRedesSociais(): void{
+        // if(this.formRS.valid){
+        //     this.spinner.show();
+        //     this.redeSocialService.saveLote(this.eventoId, this.formRS.value.lotes).subscribe(
+        //         () => {
+        //             this.toastr.success('Lotes salvos com Sucesso!', 'Sucesso');
+        //         },
+        //         (error: any) => {
+        //             this.toastr.error('Erro ao tentar salvar lotes.','Erro');
+        //             console.error(error);
+        //         }
+        //     ).add(() => this.spinner.hide());
+        // }
+    }
         
     public removerRedeSocial(template: TemplateRef<any>,indice: number): void{
         
@@ -90,22 +109,23 @@ export class RedesSociaisComponent implements OnInit{
         this.modalRef.hide();
         this.spinner.show();
         
-        this.redeSocialService.deleteRedeSocial(this.eventoId, this.redeSocialAtual.id)
-        .subscribe(
-            () => {
-                this.toastr.success('Rede Social deleta do com sucesso', 'Sucesso');
-                this.redesSociais.removeAt(this.redeSocialAtual.indice);
-            },
-            (error: any) => {
-                this.toastr.error(`Erro ao tentar deletar rede social ${this.redeSocialAtual.id}`, 'Erro');
-                console.error(error);
-            }
-            ).add(() => this.spinner.hide());
+        // this.redeSocialService.deleteRedeSocial(this.eventoId, this.redeSocialAtual.id)
+        // .subscribe(
+        //     () => {
+        //         this.toastr.success('Rede Social deleta do com sucesso', 'Sucesso');
+        //         this.redesSociais.removeAt(this.redeSocialAtual.indice);
+        //     },
+        //     (error: any) => {
+        //         this.toastr.error(`Erro ao tentar deletar rede social ${this.redeSocialAtual.id}`, 'Erro');
+        //         console.error(error);
+        //     }
+        //     ).add(() => this.spinner.hide());
     }
 
     declineDeleteRedeSocial(): void {
         this.modalRef.hide();
     }
+    
             
 }
             
