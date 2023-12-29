@@ -31,13 +31,15 @@ export class RedesSociaisComponent implements OnInit{
     ) {}
         
     ngOnInit() {
-        if(this.eventoId === 0){
-            this.carregarRedesSociais('Palestrante')
-        }
+        this.carregarRedesSociais(this.eventoId)
         this.validation();
     }
 
-    private carregarRedesSociais(origem: string, id: number=0): void{
+    private carregarRedesSociais(id: number=0): void{
+        let origem = 'palestrante';
+
+        if(this.eventoId != 0) origem = 'evento';
+        
         this.spinner.show();
 
         this.redeSocialService

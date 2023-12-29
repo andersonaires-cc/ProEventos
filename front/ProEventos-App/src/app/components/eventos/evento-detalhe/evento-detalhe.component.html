@@ -173,18 +173,33 @@
                 <b class="ml-1">Lote</b>
             </button>
         </div>
-        <div class="card-footer">
-            <div class="d-flex">
-                <button class="btn btn-outline-secondary mr-auto border">
-                    Cancelar Alteração
-                </button>
-                <button [disabled]="!lotes.valid" (click)="salvarLotes()" class="btn btn-success">
-                    Salvar Lotes
-                </button>
+            <div class="card-footer">
+                    <div class="d-flex">
+                        <button class="btn btn-outline-secondary mr-auto border">
+                            Cancelar Alteração
+                        </button>
+                        <button [disabled]="!lotes.valid" (click)="salvarLotes()" class="btn btn-success">
+                            Salvar Lotes
+                        </button>
+                    </div>
             </div>
+    </div>
+    </div>
+
+    <div class="card rounded shadow-sm mt-4" *ngIf="modoEditar">
+        <div class="p-3">
+            <div class="d-flex border-bottom">
+                <h2 class="mr-auto">
+                    Redes sociais do Evento
+                </h2>
+                <h2>
+                    <i class="fas fa-share-square"></i>
+                </h2>
+            </div>
+            <app-redesSociais [eventoId]="eventoId"></app-redesSociais>
         </div>
     </div>
-    </div>
+
     <div class="col-md-4" *ngIf="modoEditar">
         <div [formGroup]="form" class="card-evento-view shadow-sm">
             <div class="form-row">
