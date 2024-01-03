@@ -77,9 +77,9 @@ export class EventoListaComponent  implements OnInit{
     }
 
     public mostraImagem(imagemURL: string): string {
-        return (imagemURL != '')
-                ? `${environment.apiURL}Resources/images/${imagemURL}`
-                : 'assets/semImagem.jpg'
+        return (imagemURL !== '')
+                ? `${environment.apiURL}resources/images/${imagemURL}`
+                : 'assets/images/semImagem.png'
     }
   
     public carregarEventos(): void{

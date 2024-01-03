@@ -26,7 +26,7 @@ export class EventoDetalheComponent implements OnInit{
     estadoSalvar = 'post';
 
     loteAtual = {id:0, nome: '', indice:0}
-    imagemURL = 'assets/cloud.png'
+    imagemURL = 'assets/images/cloud.png'
     file: File;
 
     get modoEditar(): boolean{
@@ -77,8 +77,8 @@ export class EventoDetalheComponent implements OnInit{
                 (evento: Evento) => {
                     this.evento = {...evento};
                     this.form.patchValue(this.evento);
-                    if(this.evento.imagemURL != ''){
-                        this.imagemURL = environment.apiURL + 'Resources/Images/' + this.evento.imagemURL;
+                    if(this.evento.imagemURL !== ''){
+                        this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imagemURL;
                     }
                     this.carregarLotes();
                 },
