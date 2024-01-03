@@ -66,7 +66,7 @@ export class EventoListaComponent  implements OnInit{
       this.pagination = {
             currentPage: 1,
             itemsPerPage: 3,
-            totalItems:2
+            totalItems:1
         } as Pagination;
     
       this.carregarEventos();      
