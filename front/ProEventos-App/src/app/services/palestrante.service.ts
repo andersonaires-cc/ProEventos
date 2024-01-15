@@ -9,7 +9,7 @@ import { Observable, map, take } from 'rxjs';
   providedIn: 'root'
 })
 export class PalestranteService {
-    baseUrl = environment.apiURL + 'api/palestrante';
+    baseUrl = environment.apiURL + 'api/palestrantes';
   
 
     constructor(private http:HttpClient) { }
